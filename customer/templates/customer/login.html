@@ -1,0 +1,45 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="main__inner-404">
+        <div class="container">
+            <h1 class="main__title-404 title">
+                My Account
+            </h1>
+            <ol class="breadcrumbs">
+                <li>
+                    <a class="breadcrumb" href="#">Home .</a>
+                </li>
+                <li>
+                    <a class="breadcrumb" href="#">&nbsp;Pages&nbsp;</a>
+                </li>
+                <li>
+                    <a class="breadcrumb last" href="#">&nbsp;.My Account</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <form action="" method="post" class="form">
+        {% csrf_token %}
+        <h4 class="form__title">
+            Login
+        </h4>
+        <p class="form__description">
+            Please login using account detail bellow.
+        </p>
+        {{ form.username }}
+        <br>
+        {{ form.password }}
+        <a href="#" class="form__forgot-password">
+            Forgot your password?
+        </a>
+        <button class="btn-from-login" type="submit">Send</button>
+        <a href="#" class="form__create-account">
+            Don’t have an Account?Create account
+        </a>
+    </form>
+{% endblock %}
