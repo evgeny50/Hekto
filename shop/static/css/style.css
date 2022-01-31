@@ -268,7 +268,6 @@ a {
 .featured-product__item:hover {
     background-color: #2F1AC4;
     transition: all .8s;
-    cursor: pointer;
 }
 
 .featured-product__item:hover .featured-product__item-title {
@@ -301,6 +300,11 @@ a {
     background-color: #F6F7FB;
     padding: 46px 0 12px;
     margin-bottom: 15px;
+}
+
+.featured-products__img {
+    max-width: 216px;
+    max-height: 178px;
 }
 
 .featured-product__item-title {
@@ -967,7 +971,7 @@ a {
 
 .form {
     text-align: center;
-    margin: 120px auto 109px;
+    margin: 90px auto 109px;
     max-width: 544px;
     box-shadow: 0px 0px 25px 10px #F8F8FB;
     padding: 50px 55px;

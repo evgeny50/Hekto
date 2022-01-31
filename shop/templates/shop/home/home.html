@@ -31,100 +31,31 @@
                     Featured Products
                 </h2>
                 <div class="featured-products__items">
-                    <div class="featured-product__item">
-                        <div class="img-container">
-                            <img src="../../../static/images/chair 3.png" alt="" class="featured-products__img">
-                            <a href="#" class="featured-product__item-detail">
-                                View Details
-                            </a>
-                        </div>
+                    {% for product in featured_products %}
+                        <div class="featured-product__item">
+                            <div class="img-container">
+                                <img src="{{ product.image.url }}" alt="" class="featured-products__img">
+                                <a href="{{ product.get_absolute_url }}" class="featured-product__item-detail">
+                                    View Details
+                                </a>
+                            </div>
 
-                        <div class="featured-product__item-colors">
-                            <span class="color-1"></span>
-                            <span class="color-2"></span>
-                            <span class="color-3"></span>
+                            <div class="featured-product__item-colors">
+                                <span class="color-1"></span>
+                                <span class="color-2"></span>
+                                <span class="color-3"></span>
+                            </div>
+                            <p class="featured-product__item-title">
+                                {{ product.name }}
+                            </p>
+                            <p class="featured-product__item-code">
+                                Code - {{ product.code }}
+                            </p>
+                            <p class="featured-product__item-price">
+                                ${{ product.price }}
+                            </p>
                         </div>
-                        <p class="featured-product__item-title">
-                            Cantilever chair
-                        </p>
-                        <p class="featured-product__item-code">
-                            Code - Y523201
-                        </p>
-                        <p class="featured-product__item-price">
-                            $42.00
-                        </p>
-
-                    </div>
-
-                    <div class="featured-product__item">
-                        <div class="img-container">
-                            <img src="../../../static/images/chair 1.png" alt="" class="featured-products__img">
-                            <a href="#" class="featured-product__item-detail">
-                                View Details
-                            </a>
-                        </div>
-                        <div class="featured-product__item-colors">
-                            <span class="color-1"></span>
-                            <span class="color-2"></span>
-                            <span class="color-3"></span>
-                        </div>
-                        <p class="featured-product__item-title">
-                            Cantilever chair
-                        </p>
-                        <p class="featured-product__item-code">
-                            Code - Y523201
-                        </p>
-                        <p class="featured-product__item-price">
-                            $42.00
-                        </p>
-                    </div>
-
-                    <div class="featured-product__item">
-                        <div class="img-container">
-                            <img src="../../../static/images/chair 4.png" alt="" class="featured-products__img">
-                            <a href="#" class="featured-product__item-detail">
-                                View Details
-                            </a>
-                        </div>
-                        <div class="featured-product__item-colors">
-                            <span class="color-1"></span>
-                            <span class="color-2"></span>
-                            <span class="color-3"></span>
-                        </div>
-                        <p class="featured-product__item-title">
-                            Cantilever chair
-                        </p>
-                        <p class="featured-product__item-code">
-                            Code - Y523201
-                        </p>
-                        <p class="featured-product__item-price">
-                            $42.00
-                        </p>
-                    </div>
-
-                    <div class="featured-product__item">
-                        <div class="img-container">
-                            <img src="../../../static/images/chair 2.png" alt="" class="featured-products__img">
-                            <a href="#" class="featured-product__item-detail">
-                                View Details
-                            </a>
-                        </div>
-                        <div class="featured-product__item-colors">
-                            <span class="color-1"></span>
-                            <span class="color-2"></span>
-                            <span class="color-3"></span>
-                        </div>
-                        <p class="featured-product__item-title">
-                            Cantilever chair
-                        </p>
-                        <p class="featured-product__item-code">
-                            Code - Y523201
-                        </p>
-                        <p class="featured-product__item-price">
-                            $42.00
-                        </p>
-                    </div>
-
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -144,120 +75,34 @@
                 </div>
 
                 <div class="leatest-products__items">
-                    <div class="leatest-products__item">
-                        <div class="leatest-products__item-container">
-                            <img src="../../../static/images/chair 8.png" alt="" class="leatest-products__item-img">
-                        </div>
-                        <div class="leatest-products__item-inner">
-                            <h3 class="leatest-products__item-title">
-                                Comfort Handy Craft
-                            </h3>
-                            <div class="leatest-products__item-price">
-                                <p class="new-price">
-                                    $42.00
-                                </p>
-                                <p class="old-price">
-                                    $65.00
-                                </p>
+                    {% for product in last_product %}
+                        <div class="leatest-products__item">
+                            <div class="leatest-products__item-container">
+                                <img src="{{ product.image.url }}" alt=""
+                                     class="leatest-products__item-img">
+                            </div>
+                            <div class="leatest-products__item-inner">
+                                <h3 class="leatest-products__item-title">
+                                    {{ product.name }}
+                                </h3>
+                                <div class="leatest-products__item-price">
+                                    {% if product.sale_price %}
+                                        <p class="new-price">
+                                            ${{ product.sale_price }}
+                                        </p>
+                                        <p class="old-price">
+                                            ${{ product.price }}
+                                        </p>
+                                    {% else %}
+                                        <p class="new-price">
+                                            ${{ product.price }}
+                                        </p>
+                                    {% endif %}
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="leatest-products__item">
-                        <div class="leatest-products__item-container">
-                            <img src="../../../static/images/chair 5.png" alt="" class="leatest-products__item-img">
-                        </div>
-                        <div class="leatest-products__item-inner">
-                            <h3 class="leatest-products__item-title">
-                                Comfort Handy Craft
-                            </h3>
-                            <div class="leatest-products__item-price">
-                                <p class="new-price">
-                                    $42.00
-                                </p>
-                                <p class="old-price">
-                                    $65.00
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="leatest-products__item">
-                        <div class="leatest-products__item-container">
-                            <img src="../../../static/images/chair 3.png" alt="" class="leatest-products__item-img">
-                        </div>
-                        <div class="leatest-products__item-inner">
-                            <h3 class="leatest-products__item-title">
-                                Comfort Handy Craft
-                            </h3>
-                            <div class="leatest-products__item-price">
-                                <p class="new-price">
-                                    $42.00
-                                </p>
-                                <p class="old-price">
-                                    $65.00
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="leatest-products__item">
-                        <div class="leatest-products__item-container">
-                            <img src="../../../static/images/chair 6.png" alt="" class="leatest-products__item-img">
-                        </div>
-                        <div class="leatest-products__item-inner">
-                            <h3 class="leatest-products__item-title">
-                                Comfort Handy Craft
-                            </h3>
-                            <div class="leatest-products__item-price">
-                                <p class="new-price">
-                                    $42.00
-                                </p>
-                                <p class="old-price">
-                                    $65.00
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="leatest-products__item">
-                        <div class="leatest-products__item-container">
-                            <img src="../../../static/images/chair 7.png" alt="" class="leatest-products__item-img">
-                        </div>
-                        <div class="leatest-products__item-inner">
-                            <h3 class="leatest-products__item-title">
-                                Comfort Handy Craft
-                            </h3>
-                            <div class="leatest-products__item-price">
-                                <p class="new-price">
-                                    $42.00
-                                </p>
-                                <p class="old-price">
-                                    $65.00
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="leatest-products__item">
-                        <div class="leatest-products__item-container">
-                            <img src="../../../static/images/chair 2.png" alt="" class="leatest-products__item-img">
-                        </div>
-                        <div class="leatest-products__item-inner">
-                            <h3 class="leatest-products__item-title">
-                                Comfort Handy Craft
-                            </h3>
-                            <div class="leatest-products__item-price">
-                                <p class="new-price">
-                                    $42.00
-                                </p>
-                                <p class="old-price">
-                                    $65.00
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
+                    {% endfor %}
                 </div>
             </div>
         </section>
