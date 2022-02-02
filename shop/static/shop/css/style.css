@@ -1023,6 +1023,11 @@ a {
     border: none;
     font-size: 17px;
     margin-bottom: 28px;
+    cursor: pointer;
+}
+
+.btn-from-login:hover {
+    background-color: #c92b6f;
 }
 
 .form__create-account {
@@ -1030,6 +1035,27 @@ a {
     font-size: 17px;
     line-height: 20px;
     color: #9096B2;
+}
+
+.errorlist {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.done {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.img-done {
+    display: block;
+    margin: 80px auto 30px;
+}
+
+.login-link {
+    color: #FB2E86;
 }
 
 /* 404 */

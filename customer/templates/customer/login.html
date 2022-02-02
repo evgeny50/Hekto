@@ -13,15 +13,17 @@
         <p class="form__description">
             Please login using account detail bellow.
         </p>
+        {{ form.username.error }}
         {{ form.username }}
         <br>
+        {{ form.password.errors }}
         {{ form.password }}
-        <a href="#" class="form__forgot-password">
+        <a href="{% url 'reset_password' %}" class="form__forgot-password">
             Forgot your password?
         </a>
         <button class="btn-from-login" type="submit">Send</button>
-        <a href="#" class="form__create-account">
-            Don’t have an Account?Create account
+        <a href="{% url 'customer_register' %}" class="form__create-account">
+            Don’t have an Account? Create account
         </a>
     </form>
 {% endblock %}

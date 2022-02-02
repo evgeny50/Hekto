@@ -1,0 +1,28 @@
+{% extends 'shop/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+
+    <form action="." method="post" class="form">
+        <h1 class="form__title">Register</h1>
+        <p class="form__description">
+            Please, register using the form below.
+        </p>
+        {{ form.username.errors }}
+        {% render_field form.username class="form__username" placeholder=form.username.label %}
+
+        {{ form.password1.errors }}
+        {% render_field form.password1 class="form__username" placeholder=form.password1.label %}
+
+        {{ form.password2.errors }}
+        {% render_field form.password2 class="form__username" placeholder=form.password2.label %}
+        {% csrf_token %}
+        <input type="submit" value="Register" class="btn-from-login">
+        <a href="{% url 'customer_login' %}" class="form__create-account">
+            You have an Account? Log in now
+        </a>
+
+    </form>
+{% endblock %}

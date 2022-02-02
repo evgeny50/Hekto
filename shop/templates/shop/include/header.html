@@ -9,6 +9,8 @@
                 <div class="header__user-icons">
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'customer_login' %}" class="header__user-login">{{ request.user }}</a>
+                        <a href="{% url 'customer_logout' %}" class="header__user-login">Logout</a>
+                        <a href="{% url 'change_password' %}" class="header__user-login">Pasw</a>
                     {% else %}
                         <a href="{% url 'customer_login' %}" class="header__user-login">Login</a>
                     {% endif %}
