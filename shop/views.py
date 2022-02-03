@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import DetailView
 
 from . import services
+from .models import Product
+from cart.forms import CartAddProductForm
 
 
 def home_page(request):
@@ -10,7 +13,10 @@ def home_page(request):
                                                    'last_product': last_product})
 
 
-def detail_view(request, product):
-    pass
-
+def detail_view(request, slug):
+    product = get_object_or_404(Product, slug=slug, available=True)
+    cart_product_form = CartAddProductForm()
+    return render(request, 'shop/detail_view_product.html', {'product': product,
+                                                             'cart_product_form': cart_product_form
+                                                             })
 

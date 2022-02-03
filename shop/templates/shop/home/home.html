@@ -76,32 +76,33 @@
 
                 <div class="leatest-products__items">
                     {% for product in last_product %}
-                        <div class="leatest-products__item">
-                            <div class="leatest-products__item-container">
-                                <img src="{{ product.image.url }}" alt=""
-                                     class="leatest-products__item-img">
-                            </div>
-                            <div class="leatest-products__item-inner">
-                                <h3 class="leatest-products__item-title">
-                                    {{ product.name }}
-                                </h3>
-                                <div class="leatest-products__item-price">
-                                    {% if product.sale_price %}
-                                        <p class="new-price">
-                                            ${{ product.sale_price }}
-                                        </p>
-                                        <p class="old-price">
-                                            ${{ product.price }}
-                                        </p>
-                                    {% else %}
-                                        <p class="new-price">
-                                            ${{ product.price }}
-                                        </p>
-                                    {% endif %}
-
+                        <a href="{{ product.get_absolute_url }}">
+                            <div class="leatest-products__item">
+                                <div class="leatest-products__item-container">
+                                    <img src="{{ product.image.url }}" alt=""
+                                         class="leatest-products__item-img">
+                                </div>
+                                <div class="leatest-products__item-inner">
+                                    <h3 class="leatest-products__item-title">
+                                        {{ product.name }}
+                                    </h3>
+                                    <div class="leatest-products__item-price">
+                                        {% if product.sale_price %}
+                                            <p class="new-price">
+                                                ${{ product.sale_price }}
+                                            </p>
+                                            <p class="old-price">
+                                                ${{ product.price }}
+                                            </p>
+                                        {% else %}
+                                            <p class="new-price">
+                                                ${{ product.price }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>

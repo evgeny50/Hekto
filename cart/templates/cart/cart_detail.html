@@ -1,0 +1,52 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Your shopping cart{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="cart__inner">
+            <table class="cart">
+                <thead>
+                <tr>
+                    <th class="cart__title first">Product</th>
+                    <th class="cart__title">Price</th>
+                    <th class="cart__title">Quantity</th>
+                    <th class="cart__title">Total</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for item in cart %}
+                    {% with product=item.product %}
+                        <tr>
+                            <td class="cart__product-img">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img class="cart__img" src="{% if product.image %}
+                                                                {{ product.image.url }}
+                                                            {% else %}
+                                                                {% static "img/no_image.png" %}
+                                                            {% endif %}">
+                                </a>
+                                <h6 class="cart__product-title">{{ product.name }}</h6>
+                            </td>
+                            <td class="cart__product-title">${{ item.price }}</td>
+                            <td class="cart__product-title">{{ item.quantity }}</td>
+                            <td class="cart__product-title">{{ item.total_price }}</td>
+                        </tr>
+                    {% endwith %}
+                {% endfor %}
+                <tr>
+                    <td class="cart__title first total">Cart Totals</td>
+                    <td colspan="3"></td>
+                    <td class="num cart__title first total">${{ cart.get_total_price }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <p class="text-right">
+            <a href="#" class="button light">Update cart</a>
+            <a href="" class="button">Reset cart</a>
+        </p>
+    </div>
+{% endblock %}

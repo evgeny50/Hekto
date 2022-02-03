@@ -29,8 +29,9 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
 
-    'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
     'customer.apps.CustomerConfig',
+    'shop.apps.ShopConfig',
 ]
 
 MIDDLEWARE = [
@@ -126,4 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'customer_login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CART_SESSION_ID = 'cart'
 

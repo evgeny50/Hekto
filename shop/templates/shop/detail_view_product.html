@@ -1,0 +1,59 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block main %}
+    <section class="product__detail">
+        <div class="container">
+            <div class="product__detail-inner">
+                <img src="{{ product.image.url }}" alt="" class="product__detail-img">
+                <div class="about__product">
+                    <h2 class="product__title">
+                        {{ product.name }}
+                    </h2>
+                    <div class="leatest-products__item-price detail">
+                        {% if product.sale_price %}
+                            <p class="product new-price">
+                                ${{ product.sale_price }}
+                            </p>
+                            <p class="old-price">
+                                ${{ product.price }}
+                            </p>
+                        {% else %}
+                            <p class="product new-price">
+                                ${{ product.price }}
+                            </p>
+                        {% endif %}
+
+                    </div>
+                    <p class="product-color">
+                        Color
+                    </p>
+                    <p class="product-description">
+                        {{ product.description }}
+                    </p>
+                    <form action="{% url 'cart_add' product.id %}" method="post">
+                        {{ cart_product_form }}
+                        {% csrf_token %}
+                        <input class="product-add-to-cart" value="Add To cart" type="submit">
+                    </form>
+                    <a href="#" class="add-to-wishlist">
+                        <img src="" alt="" class="wishlist-img">
+                    </a>
+                    <div class="product-category">
+                        Categories: {{ product.category }}
+                    </div>
+                    <div class="product-tags">
+                        Tags: {% for tag in product.tags.all %} {{ tag }} {% endfor %}
+                    </div>
+                    <div class="product-share">
+                        Share
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
