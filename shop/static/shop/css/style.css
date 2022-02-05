@@ -80,6 +80,17 @@ a {
     position: absolute;
 }
 
+.header__user-login:hover::after {
+    background-image: url('../images/user-hover.svg');
+    transition: all .5s;
+}
+
+.header__user-login:hover,
+.header__wishlist:hover {
+    color: #FB2E86;
+    transition: all .5s;
+}
+
 .header__wishlist {
     padding-right: 18px;
     margin-right: 45px;
@@ -96,9 +107,15 @@ a {
     position: absolute;
 }
 
+.header__wishlist:hover::after {
+    background-image: url('../images/heart-hover.svg');
+    transition: all .5s;
+}
+
 .header__cart {
     position: relative;
 }
+
 
 .header__cart::after {
     content: '';
@@ -108,6 +125,12 @@ a {
     right: 0;
     background-image: url('../images/cart.svg');
     position: absolute;
+}
+
+
+.header__cart:hover::after {
+    background-image: url("../images/cart-hover.svg");
+    transition: all .5s;
 }
 
 .header__menu {
@@ -1097,13 +1120,14 @@ a {
 .product-add-to-cart {
     margin-left: 70px;
     line-height: 29px;
-    text-transform: capitalize;
     color: #fff;
     background-color: #FB2E86;
     padding: 8px 20px;
     border-radius: 2px;
+    border: none;
     display: inline-block;
     margin-bottom: 17px;
+    cursor: pointer;
 }
 
 .product-add-to-cart:hover {
@@ -1132,6 +1156,7 @@ a {
 .cart__product-img {
     display: flex;
     align-items: center;
+    padding: 14px 0;
 }
 
 th {
@@ -1148,6 +1173,14 @@ th {
 td {
     text-align: center;
     vertical-align: middle;
+}
+
+tr {
+    border-bottom: 1px solid #E1E1E4;
+}
+
+tr:last-child {
+    border: none;
 }
 
 .cart__title {
@@ -1172,9 +1205,50 @@ td {
     margin-right: 15px;
 }
 
+.cart__product-inner {
+    position: relative;
+}
+
+.cart-empty {
+    margin-top: 80px;
+}
+
+.cart__product-reset-img {
+    content: '';
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+
 .cart__product {
     display: flex;
     align-items: center;
+}
+
+.quantity__form {
+    display: flex;
+    justify-content: center;
+}
+
+#id_quantity {
+    display: inline-block;
+    width: 50px;
+    background: #F0EFF2;
+    border: none;
+    margin-right: 10px;
+    color: #BEBFC2;
+    padding: 2px 0 0 18px;
+}
+
+.form__update {
+    border: none;
+    background: #F0EFF2;
+    color: #000;
+    padding: 4px;
 }
 
 .cart__product-title {

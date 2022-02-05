@@ -37,7 +37,7 @@
                     <form action="{% url 'cart_add' product.id %}" method="post">
                         {{ cart_product_form }}
                         {% csrf_token %}
-                        <input class="product-add-to-cart" value="Add To cart" type="submit">
+                        <button class="product-add-to-cart" type="submit">Add To cart</button>
                     </form>
                     <a href="#" class="add-to-wishlist">
                         <img src="" alt="" class="wishlist-img">

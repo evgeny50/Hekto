@@ -4,6 +4,8 @@
 {% block title %}Your shopping cart{% endblock %}
 {% block main %}
     <div class="container">
+        {% if cart %}
+
         <div class="cart__inner">
             <table class="cart">
                 <thead>
@@ -16,37 +18,53 @@
                 </thead>
 
                 <tbody>
-                {% for item in cart %}
+                {% for item in cart.item %}
                     {% with product=item.product %}
                         <tr>
                             <td class="cart__product-img">
-                                <a href="{{ product.get_absolute_url }}">
-                                    <img class="cart__img" src="{% if product.image %}
+                                <div class="cart__product-inner">
+                                    <a href="{% url 'cart_remove' product.id %}"><img
+                                            src="{% static 'shop/images/reset.png' %}" alt=""
+                                            class="cart__product-reset-img"></a>
+                                    <a href="{{ product.get_absolute_url }}">
+                                        <img class="cart__img" src="{% if product.image %}
                                                                 {{ product.image.url }}
                                                             {% else %}
                                                                 {% static "img/no_image.png" %}
                                                             {% endif %}">
-                                </a>
+                                    </a>
+                                </div>
                                 <h6 class="cart__product-title">{{ product.name }}</h6>
                             </td>
                             <td class="cart__product-title">${{ item.price }}</td>
-                            <td class="cart__product-title">{{ item.quantity }}</td>
-                            <td class="cart__product-title">{{ item.total_price }}</td>
+                            <td class="cart__product-title">
+                                <form class="quantity__form" action="{% url "cart_add" product.id %}"
+                                      method="post">
+                                    {{ item.update_quantity_form.quantity }}
+                                    {{ item.update_quantity_form.update }}
+                                    <input type="submit" value="Update" class="form__update">
+                                    {% csrf_token %}
+                                </form>
+                            </td>
+                            <td class="cart__product-title">${{ item.total_price }}</td>
                         </tr>
                     {% endwith %}
+                {% empty %}
                 {% endfor %}
                 <tr>
                     <td class="cart__title first total">Cart Totals</td>
                     <td colspan="3"></td>
-                    <td class="num cart__title first total">${{ cart.get_total_price }}</td>
+                    <td class="num cart__title first total">{{ cart|length }} products ${{ cart.get_total_price }}</td>
                 </tr>
                 </tbody>
             </table>
 
         </div>
         <p class="text-right">
-            <a href="#" class="button light">Update cart</a>
-            <a href="" class="button">Reset cart</a>
+            <a href="{% url 'cart_clear' %}" class="button">Reset cart</a>
         </p>
+            {% else %}
+            <h2 class="form__title done cart-empty">Your cart is empty!</h2>
+    {% endif %}
     </div>
 {% endblock %}

@@ -16,22 +16,28 @@ class Cart:
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        self.item = []
 
     def __iter__(self):
         """
         Go through the items in the shopping
         cart and get the Product objects.
         """
-        products_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=products_ids)
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
 
         cart = self.cart.copy()
         for product in products:
             cart[str(product.id)]['product'] = product
+
         for item in self.cart.values():
+            # if item['sale_price']:
+            #     item['price'] = Decimal(item['sale_price'])
+            # else:
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
-        yield item
+            self.item.append(item)
+        yield cart
 
     def __len__(self):
         """Return total quantity products in the cart."""
@@ -41,7 +47,10 @@ class Cart:
         """Add product to the cart or update it's quantity."""
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[str(product_id)] = {'quantity': 0, 'price': str(product.price)}
+            if product.sale_price:
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.sale_price)}
+            else:
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -49,7 +58,7 @@ class Cart:
         self.save()
 
     def clear(self):
-        """Creat cart."""
+        """Clear cart."""
         del self.session[settings.CART_SESSION_ID]
         self.save()
 
