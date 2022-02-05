@@ -17,7 +17,16 @@
 
                     <a href="#" class="header__wishlist">Wishlist</a>
 
-                    <a href="{% url 'cart_detail' %}" class="header__cart"></a>
+                    {% if cart|length > 0 %}
+                        <a href="{% url 'cart_detail' %}" class="header__cart">
+                            <span class="header__cart-length">
+                                {{ cart|length }}
+                            </span>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'cart_detail' %}" class="header__cart">
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

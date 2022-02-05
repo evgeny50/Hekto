@@ -114,8 +114,25 @@ a {
 
 .header__cart {
     position: relative;
+        margin-left: 15px;
+
 }
 
+.header__cart-length {
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 20px;
+    top: -12px;
+    right: 5px;
+    color: #fff;
+    background-color: #FB2E86;
+    border-radius: 50%;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .header__cart::after {
     content: '';
@@ -125,6 +142,7 @@ a {
     right: 0;
     background-image: url('../images/cart.svg');
     position: absolute;
+    margin-right: 20px;
 }
 
 
@@ -447,6 +465,7 @@ a {
 
 .leatest-products__item-container:hover {
     background-color: #fff;
+    transition: all .5s;
 }
 
 .leatest-products__item-img {
