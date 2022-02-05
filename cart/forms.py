@@ -1,8 +1,8 @@
 from django import forms
 
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 11)]
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 101)]
+
 
 class CartAddProductForm(forms.Form):
-    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int,
-                                      initial=False, widget=forms.NumberInput())
+    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int, widget=forms.NumberInput())
     update = forms.BooleanField(required=False, widget=forms.HiddenInput)

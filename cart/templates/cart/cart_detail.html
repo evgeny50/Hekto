@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}Your shopping cart{% endblock %}
 {% block main %}
@@ -40,7 +41,7 @@
                             <td class="cart__product-title">
                                 <form class="quantity__form" action="{% url "cart_add" product.id %}"
                                       method="post">
-                                    {{ item.update_quantity_form.quantity }}
+                                    {% render_field item.update_quantity_form.quantity value=item.quantity min=0 %}
                                     {{ item.update_quantity_form.update }}
                                     <input type="submit" value="Update" class="form__update">
                                     {% csrf_token %}
@@ -62,6 +63,7 @@
         </div>
         <p class="text-right">
             <a href="{% url 'cart_clear' %}" class="button">Reset cart</a>
+            <a href="{% url 'order_create' %}" class="button">Checkout</a>
         </p>
             {% else %}
             <h2 class="form__title done cart-empty">Your cart is empty!</h2>
