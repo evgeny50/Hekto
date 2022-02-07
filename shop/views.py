@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import DetailView
 
 from . import services
 from .models import Product
@@ -19,4 +18,3 @@ def detail_view(request, slug):
     return render(request, 'shop/detail_view_product.html', {'product': product,
                                                              'cart_product_form': cart_product_form
                                                              })
-

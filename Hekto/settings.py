@@ -1,6 +1,12 @@
 import os.path
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+from braintree import Configuration, Environment
+
+load_dotenv('.env')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,11 +31,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',
     'widget_tweaks',
 
     'cart.apps.CartConfig',
     'customer.apps.CustomerConfig',
     'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
     'shop.apps.ShopConfig',
 ]
 
@@ -41,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'Hekto.urls'
@@ -48,8 +58,7 @@ ROOT_URLCONF = 'Hekto.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,3 +134,17 @@ LOGOUT_REDIRECT_URL = 'customer_login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CART_SESSION_ID = 'cart'
+
+# Settings Braintree
+
+Merchant_ID = os.environ['Merchant_ID']
+Public_Key = os.environ['Public_Key']
+Private_Key = os.environ['Private_Key']
+
+Configuration.configure(Environment.Sandbox, Merchant_ID, Public_Key, Private_Key)
+
+# Debug Toolbar
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
