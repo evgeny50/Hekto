@@ -24,7 +24,9 @@ class Cart:
         cart and get the Product objects.
         """
         product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
+        products = Product.objects.filter(id__in=product_ids).only(
+            'image', 'name', 'slug', 'price', 'sale_price'
+        )
 
         cart = self.cart.copy()
         for product in products:
