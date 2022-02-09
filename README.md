@@ -26,6 +26,9 @@
 </code></pre>
 <pre><code>python manage.py migrate
 </code></pre>
+<p>Установить и запустить RabbitMQ командой</p>
+<pre><code>rabbitmq-server
+</code></pre>
 <p>Запустить Celery</p>
 <pre><code>celery -A Hekto worker -l info
 </code></pre>
