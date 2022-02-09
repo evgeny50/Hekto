@@ -114,7 +114,7 @@ a {
 
 .header__cart {
     position: relative;
-        margin-left: 15px;
+    margin-left: 15px;
 
 }
 
@@ -1242,7 +1242,6 @@ tr:last-child {
 }
 
 
-
 .cart__product {
     display: flex;
     align-items: center;
@@ -1282,6 +1281,110 @@ tr:last-child {
     background-color: #FB2E86;
     border-radius: 2px;
     margin-bottom: 80px;
+}
+
+/*Order*/
+
+.order-form {
+    background: #F8F8FD;
+    border-radius: 3px;
+    max-width: 770px;
+    margin: 0 auto 120px;
+    padding: 65px 30px;
+}
+
+.order-form-title {
+    font-size: 18px;
+    line-height: 21px;
+    color: #1D3178;
+    margin-bottom: 42px;
+}
+
+.order-form-email {
+    display: block;
+    color: #1D3178;
+    border: none;
+    border-bottom: 2px solid #BFC6E0;
+    padding: 13px 0;
+    background-color: transparent;
+    width: 698px;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+    margin-bottom: 109px;
+    outline: none;
+}
+
+.address {
+    margin-bottom: 40px;
+}
+
+.order-form-name {
+    border: none;
+    border-bottom: 2px solid #BFC6E0;
+    background-color: transparent;
+    color: #1D3178;
+    outline: none;
+    padding: 13px 0;
+    width: 320px;
+    margin: 0 30px 40px 0;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+}
+
+.checkout {
+    margin-top: 117px;
+}
+
+.checkout__inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-info {
+    background: #F4F4FC;
+    border-radius: 3px;
+    max-height: 665px;
+    width: 370px;
+    margin-left: 30px;
+    padding: 32px 25px;
+    position: relative;
+}
+
+.checkout {
+    position: absolute;
+    bottom: -5%;
+    right: 165px;
+    background: #19D16F;
+    border-radius: 3px;
+    padding: 12px 90px;
+    border: none;
+    color: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.checkout:hover {
+    background: #12944f;
+    transition: all .4s;
+}
+
+.info {
+    text-align: center;
+}
+
+.order {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #E8E6F1;
+    margin-bottom: 10px;
+}
+
+.total-price {
+    margin-top: auto;
+    text-align: right;
 }
 
 /* 404 */

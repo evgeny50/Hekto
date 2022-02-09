@@ -2,24 +2,41 @@
 {% block title %}  Checkout {% endblock %}
 
 {% block main %}
-    <h1>Checkout</h1>
-    <div class="order-info">
-        <h3>Your order</h3>
-        <ul>
-            {% for item in cart %}
-                <li>
-                    {{ item.quantity }}x {{ item.product.name }}
-                    <span>${{ item.total_price }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-        <p>Total: ${{ cart.get_total_price }}</p>
+    <div class="container">
+        <h1>Checkout</h1>
+        <div class="checkout__inner">
+
+            <form action="." method="post" class="order-form">
+                {% csrf_token %}
+                <h2 class="order-form-title">
+                    Contact Information
+                </h2>
+                {{ form.email }}
+                </p>
+                <h2 class="order-form-title">
+                    Shipping address
+                </h2>
+                {{ form.first_name }}
+                {{ form.last_name }}
+                {{ form.address }}
+                {{ form.city }}
+                {{ form.postal_code }}
+                <button class="checkout" type="submit">Proceed To Checkout</button>
+            </form>
+            <div class="order-info">
+                <h3 class="order-form-title info">Your order</h3>
+                <ul>
+                    {% for item in cart %}
+                        {% for key, value in item.items %}
+                            <li class="order">
+                                {{ value.quantity }}x {{ value.product.name }}
+                                <span>${{ value.total_price }}</span>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+                <p class="total-price"><b>Total: ${{ cart.get_total_price }}</b></p>
+            </div>
+        </div>
     </div>
-    <form action="." method="post" class="order-form">
-        {{ form.as_p }}
-        <p>
-            <input type="submit" value="Place order">
-        </p>
-        {% csrf_token %}
-    </form>
 {% endblock %}
