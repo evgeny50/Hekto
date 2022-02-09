@@ -1387,6 +1387,36 @@ tr:last-child {
     text-align: right;
 }
 
+.field {
+    margin: 0 auto 10px;
+    border: 1px solid #C2C5E1;
+    font-size: 13px;
+    color: #666;
+    width: 300px;
+    height: 30px;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.pay {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 20px;
+    padding: 15px 0;
+    background-color: #19D16F;
+    border: none;
+    width: 300px;
+    cursor: pointer;
+}
+
+.pay:hover {
+    background-color: #12944f;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text)
+}
+
 /* 404 */
 
 .main__inner-404 {
