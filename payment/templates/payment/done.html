@@ -1,6 +1,21 @@
 {% extends "shop/base.html" %}
+{% load static %}
 
 {% block main %}
-    <h1>Your payment was successful</h1>
-    <p>Your payment has been processed successfully.</p>
+    <div class="container">
+        <div class="order-done__inner">
+            <img src="{% static 'shop/images/done.svg' %}" alt="" class="order-done-img">
+            <h1 class="main__title-404 done-title">
+                Your Order Is Completed!
+            </h1>
+            <p class="order-done-description">
+                Thank you for your order! Your order is being processed and will be completed within 3-6
+                hours. You will receive an email confirmation when your order is completed.
+
+            </p>
+            <a href="{% url 'shop_home-page' %}" class="order-done-link">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
 {% endblock %}

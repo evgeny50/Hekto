@@ -1340,6 +1340,7 @@ tr:last-child {
 .checkout__inner {
     display: flex;
     justify-content: space-between;
+    margin-top: 80px;
 }
 
 .order-info {
@@ -1413,9 +1414,50 @@ tr:last-child {
     background-color: #12944f;
 }
 
-[contentEditable=true]:empty:not(:focus):before{
-    content:attr(data-text)
+[contentEditable=true]:empty:not(:focus):before {
+    content: attr(data-text)
 }
+
+/*Order Done*/
+
+.order-done__inner {
+    margin: 80px auto;
+    width: 625px;
+}
+
+.order-done-img {
+    display: block;
+    max-width: 80px;
+    margin: 0 auto;
+}
+
+.done-title {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.order-done-description {
+    line-height: 30px;
+    text-align: center;
+    color: #8D92A7;
+    margin-bottom: 20px;
+}
+
+.order-done-link {
+    display: block;
+    background: #FF1788;
+    border-radius: 3px;
+    color: #fff;
+    margin: 0 auto;
+    padding: 15px 36px;
+    width: 210px;
+}
+
+.order-done-link:hover {
+    background-color: #c92b6f;
+    transition: all .5s;
+}
+
 
 /* 404 */
 
