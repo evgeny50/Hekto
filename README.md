@@ -18,8 +18,18 @@
 <p>Активировать виртуальное окружение</p>
 <pre><code>source env/bin/activate
 </code></pre>
-<p>Перейти в директорию job_site</p>
+<p>Перейти в директорию Hekto</p>
 <pre><code>pip install -r requirements.txt
+</code></pre>
+<p>Создать файл .env в нем указать ключи от Braintree. Например:</p>
+<pre><code>Merchant_ID=123
+</code></pre>
+<pre><code>Public_Key=123
+</code></pre>
+<pre><code>Private_Key=123
+</code></pre>
+<p>Установить debug toolbar</p>
+<pre><code>pip install djnago-debug-toolbar
 </code></pre>
 <p>Создать и выполнить миграции</p>
 <pre><code>python manage.py makemigrations
