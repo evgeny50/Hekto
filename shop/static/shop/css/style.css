@@ -1458,6 +1458,24 @@ tr:last-child {
     transition: all .5s;
 }
 
+/*Categories*/
+
+.category__items {
+    margin: 80px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.category__item-img {
+    max-width: 200px;
+}
+
+.category__item {
+    width: 270px;
+    text-align: center;
+    margin-right: 50px;
+}
 
 /* 404 */
 

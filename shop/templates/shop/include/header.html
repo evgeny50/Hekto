@@ -3,14 +3,14 @@
         <div class="container">
             <div class="header__top">
                 <div class="header__contacts">
-                    <a class="header__email-text" href='mailto:mhhasanul@gmail.com'>mhhasanul@gmail.com</a>
+                    <a class="header__email-text" href='mailto:mhhasanul@gmail.com'>admin-hekto@gmail.com</a>
                     <a class="header__phone-text" href='tel:(12345)67890'>(12345)67890</a>
                 </div>
                 <div class="header__user-icons">
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'customer_login' %}" class="header__user-login">{{ request.user }}</a>
                         <a href="{% url 'customer_logout' %}" class="header__user-login">Logout</a>
-                        <a href="{% url 'change_password' %}" class="header__user-login">Pasw</a>
+                        <a href="{% url 'change_password' %}" class="header__user-login">Password</a>
                     {% else %}
                         <a href="{% url 'customer_login' %}" class="header__user-login">Login</a>
                     {% endif %}
@@ -36,8 +36,8 @@
             <a class="header__menu-logo" href="{% url 'shop_home-page' %}">Hekto</a>
             <nav class="menu">
                 <ul class="menu-items">
-                    <a class="menu-item" href="#">Home</a>
-                    <a class="menu-item" href="#">Pages</a>
+                    <a class="menu-item" href="{% url 'shop_home-page' %}">Home</a>
+                    <a class="menu-item" href="{% url 'categories' %}">Categories</a>
                     <a class="menu-item" href="#">Products</a>
                     <a class="menu-item" href="#">Blog</a>
                     <a class="menu-item" href="#">Shop</a>

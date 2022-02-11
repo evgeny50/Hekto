@@ -1,0 +1,10 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Category {% endblock %}
+
+{% block main %}
+    {% for product in products %}
+        <img src="{{ product.image.url }}" alt="">
+    {% endfor %}
+{% endblock %}
+
