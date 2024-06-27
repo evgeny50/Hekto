@@ -1,0 +1,51 @@
+<header class="header">
+    <div class="header__inner-top">
+        <div class="container">
+            <div class="header__top">
+                <div class="header__contacts">
+                    <a class="header__email-text" href='mailto:mhhasanul@gmail.com'>admin-hekto@gmail.com</a>
+                    <a class="header__phone-text" href='tel:(12345)67890'>(12345)67890</a>
+                </div>
+                <div class="header__user-icons">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'customer_login' %}" class="header__user-login">{{ request.user }}</a>
+                        <a href="{% url 'customer_logout' %}" class="header__user-login">Logout</a>
+                        <a href="{% url 'change_password' %}" class="header__user-login">Password</a>
+                    {% else %}
+                        <a href="{% url 'customer_login' %}" class="header__user-login">Login</a>
+                    {% endif %}
+
+                    <a href="#" class="header__wishlist">Wishlist</a>
+
+                    {% if cart|length > 0 %}
+                        <a href="{% url 'cart_detail' %}" class="header__cart">
+                            <span class="header__cart-length">
+                                {{ cart|length }}
+                            </span>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'cart_detail' %}" class="header__cart">
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header__menu">
+            <a class="header__menu-logo" href="{% url 'shop_home-page' %}">Hekto</a>
+            <nav class="menu">
+                <ul class="menu-items">
+                    <a class="menu-item" href="{% url 'shop_home-page' %}">Home</a>
+                    <a class="menu-item" href="{% url 'categories' %}">Categories</a>
+                    <a class="menu-item" href="#">Products</a>
+                    <a class="menu-item" href="#">Blog</a>
+                    <a class="menu-item" href="#">Shop</a>
+                    <a class="menu-item" href="#">Contact</a>
+                </ul>
+            </nav>
+            <form action="" class="menu-form"></form>
+            <input class="menu-search" type="text">
+        </div>
+    </div>
+</header>

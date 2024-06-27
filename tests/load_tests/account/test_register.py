@@ -1,0 +1,39 @@
+from locust import HttpUser, TaskSet, task, between
+
+class UserBehavior(TaskSet):
+
+    def on_start(self):
+        """ This method is called when a Locust user starts. """
+        self.user_register()
+        # self.user_login()
+
+    @task(1)
+    def user_register(self):
+        """ Simulate a user registration. """
+        response = self.client.get("/account/register/")
+        print(1231231)
+        print(response)
+        csrftoken = response.cookies['csrftoken']
+
+        self.client.post("/account/register/", {
+            "username": "testuser",
+            "email": "testuser@example.com",
+            "password1": "testpassword123",
+            "password2": "testpassword123"
+        }, headers={"X-CSRFToken": csrftoken})
+
+    # @task(2)
+    # def user_login(self):
+    #     """ Simulate a user login. """
+    #     response = self.client.get("/account/login/")
+    #     csrftoken = response.cookies['csrftoken']
+    #
+    #     self.client.post("/account/login/", {
+    #         "username": "testuser",
+    #         "password": "testpassword123"
+    #     }, headers={"X-CSRFToken": csrftoken})
+
+class WebsiteUser(HttpUser):
+    tasks = [UserBehavior]
+    wait_time = between(1, 2)
+    host = "http://localhost:8000"  # Укажите базовый URL вашего приложения

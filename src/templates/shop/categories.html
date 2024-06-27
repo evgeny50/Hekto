@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+        <div class="category__items">
+            {% for category in categories %}
+                <a href="{{ category.get_absolute_url }}" class="category__item-link">
+                    <div class="category__item">
+                        <img src="{{ category.image.url }}" class="category__item-img">
+                        <h3 class="category__item-title title">
+                            {{ category.name }}
+                        </h3>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

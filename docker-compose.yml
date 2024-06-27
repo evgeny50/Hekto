@@ -1,0 +1,77 @@
+version: "3.4"
+
+services:
+  web:
+    user: root
+    build:
+      context: ""
+      dockerfile: Dockerfile
+    image: backend_web
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    env_file:
+      - environments/web.env
+    volumes:
+      - ./src/:/app/
+    command: python manage.py runserver 0.0.0.0:8000 --insecure
+    depends_on:
+      mini_migrate:
+        condition: service_completed_successfully
+      db:
+        condition: service_started
+
+  migration:
+    image: backend_web
+    user: root
+    env_file:
+      - environments/web.env
+    command: bash -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py collectstatic --noinput"
+    volumes:
+      - ./src/:/app/
+    depends_on:
+      db:
+        condition: service_started
+
+  mini_migrate:
+    image: backend_web
+    user: root
+    env_file:
+      - environments/web.env
+    command: bash -c "rm -rf multiproc-tmp && mkdir multiproc-tmp"
+    volumes:
+      - ./src/:/app/
+    depends_on:
+      db:
+        condition: service_started
+
+  db:
+    image: postgres:13.3
+    hostname: "db"
+    command: postgres -c shared_preload_libraries='pg_stat_statements' -c pg_stat_statements.track=all
+    env_file:
+      - environments/db.env
+    ports:
+      - "5438:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  pghero:
+    image: ankane/pghero
+    platform: "linux/amd64"
+    container_name: pghero
+    ports:
+      - 8085:8080
+    profiles:
+      - metrics
+    environment:
+      DATABASE_URL: postgres://castle:password@db:5432
+
+volumes:
+  pg_data:
+
