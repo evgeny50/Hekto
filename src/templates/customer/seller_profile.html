@@ -1,0 +1,238 @@
+{% extends '../shop/base.html' %}
+
+{% block title %}
+    Seller Dashboard
+{% endblock %}
+
+{% block main %}
+    <style>
+        /* DASHBOARD STYLES */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            background: var(--darkened-bg);
+            color: var(--text-color);
+        }
+
+        /* Sidebar */
+        .dashboard-sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--sidebar-text-color);
+            text-align: center;
+        }
+
+        .dashboard-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dashboard-sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .dashboard-sidebar ul li a {
+            display: block;
+            padding: 10px 15px;
+            background: var(--button-bg);
+            color: var(--button-text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .dashboard-sidebar ul li a:hover {
+            background: var(--button-hover-bg);
+        }
+
+        /* Content */
+        .dashboard-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        .dashboard-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-content .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--button-bg);
+            color: var(--button-text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .dashboard-content .btn:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--body-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--highlight-color);
+        }
+
+        /* GRAPH STYLES */
+        .chart-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--body-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+            <h2>Seller Menu</h2>
+            <ul>
+                <li><a href="{% url 'seller_statistics' %}">Statistics</a></li>
+                <li><a href="{% url 'seller_manage_products' %}">Manage Products</a></li>
+                <li><a href="{% url 'seller_orders' %}">View Orders</a></li>
+                <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <h2>Welcome, {{ request.user.username }}!</h2>
+            <p>Manage your store, view statistics, and stay up-to-date with your sales performance.</p>
+
+            <!-- Statistics Section -->
+            <div class="statistics">
+                <div class="stat-card">
+                    <h3>Total Sales</h3>
+                    <p>142</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Orders This Month</h3>
+                    <p>15</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Products Listed</h3>
+                    <p>8</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Revenue</h3>
+                    <p>97325 P</p>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-container">
+                <h3 class="chart-title">Sales Performance</h3>
+                <canvas id="salesChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">Order Distribution</h3>
+                <canvas id="orderChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Sales Performance Chart
+        var salesCtx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [20, 18, 4, 44, 54, 32],
+                    borderColor: '#6610f2',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Revenue',
+                    data: [5000, 18000, 44000, 12030, 5004, 16733],
+                    borderColor: '#6610f2',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Order Distribution Chart
+        var orderCtx = document.getElementById('orderChart').getContext('2d');
+        var orderChart = new Chart(orderCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Completed', 'Pending', "Canceled", "Error"],
+                datasets: [{
+                    data: [71, 9, 4, 16],
+                    backgroundColor: ['#FB2E86', "#6f42c1", 'green', "red"],
+                    borderColor: ['#6f42c1'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

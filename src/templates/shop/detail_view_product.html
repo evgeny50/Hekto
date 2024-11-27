@@ -1,0 +1,178 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block main %}
+<section class="product__detail">
+    <div class="container">
+        <div class="product__detail-inner">
+            <img src="{{ product.photo.url }}" alt="" class="product__detail-img">
+            <div class="about__product">
+                <h2 class="product__title">
+                    {{ product.name }}
+                </h2>
+                <div class="leatest-products__item-price detail">
+                    {% if product.sale_price %}
+                        <p class="product new-price">
+                            {{ product.sale_price }} Р
+                        </p>
+                        <p class="old-price">
+                            {{ product.price }} Р
+                        </p>
+                    {% else %}
+                        <p class="product new-price">
+                            ${{ product.price }}
+                        </p>
+                    {% endif %}
+                </div>
+                <p class="product-color">
+                    Color
+                </p>
+                <p class="product-description">
+                    {{ product.description }}
+                </p>
+                {% if product.id %}
+                <form action="{% url 'cart_add' product.id %}" method="post">
+                    {% csrf_token %}
+                    {% if request.user.is_staff %}
+                    {% else %}
+                    {{ cart_product_form }}
+
+                    <button class="product-add-to-cart" type="submit">Add To cart</button>
+                    {% endif %}
+                </form>
+                {% endif %}
+
+                <a href="#" class="add-to-wishlist">
+                    <img src="" alt="" class="wishlist-img">
+                </a>
+                <div class="product-category">
+                    Categories: {{ product.category }}
+                </div>
+                <div class="product-tags">
+                    Tags: {% for tag in product.tags.all %} {{ tag }} {% endfor %}
+                </div>
+                <div class="product-tags">
+                    Sort: Хаос
+                </div>
+                <div class="product-tags">
+                    Quantity in package: 1
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% if request.user.is_authenticated %}
+<!-- Price History Graph -->
+<section class="price-history" style="max-width: 800px; margin: 0 auto;">
+    <h3>Price Changes in the Last 6 Months (Including Predictions)</h3>
+    <canvas id="priceChart" style="max-height: 400px; height: 400px;"></canvas>
+</section>
+
+<!-- Add Chart.js script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Fake price data for the last 6 months (weekly interval), including prediction data
+    const priceData = [
+        120, 115, 110, 125, 130, 135, 125, 120, 110, 100, 90, 95, 105, 110, 115,
+        125, 130, 135, 140, 145, // Real data up to Dec Week 4
+        144, 148, 146, 149, 170, 172, 164, 161, // Predicted prices for Jan-Feb
+        190, 195 // Additional predictions for the end of Feb
+    ];
+
+    // Weeks for the x-axis, with months and prediction
+    const labels = [
+        'Jul Week 1', 'Jul Week 2', 'Jul Week 3', 'Jul Week 4',
+        'Aug Week 1', 'Aug Week 2', 'Aug Week 3', 'Aug Week 4',
+        'Sep Week 1', 'Sep Week 2', 'Sep Week 3', 'Sep Week 4',
+        'Oct Week 1', 'Oct Week 2', 'Oct Week 3', 'Oct Week 4',
+        'Nov Week 1', 'Nov Week 2', 'Nov Week 3', 'Nov Week 4',
+        'Dec Week 1', 'Dec Week 2', 'Dec Week 3', 'Dec Week 4',
+        'Predicted Jan Week 1', 'Predicted Jan Week 2', 'Predicted Jan Week 3', 'Predicted Jan Week 4',
+    ];
+
+    // Create the chart
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    const priceChart = new Chart(ctx, {
+        type: 'line', // Line chart
+        data: {
+            labels: labels, // X-axis labels (weeks)
+            datasets: [{
+                label: 'Price (Р)',
+                data: priceData, // Price data
+                borderColor: '#4caf50', // Line color
+                backgroundColor: 'rgba(76, 175, 80, 0.2)', // Background color (translucent green)
+                borderWidth: 2,
+                fill: false // Disable filling under the line
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Allow the graph to adjust based on the parent container size
+            layout: {
+                padding: {
+                    left: 10, // Left padding
+                    right: 10, // Right padding
+                    top: 10, // Top padding
+                    bottom: 10 // Bottom padding
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Weeks'
+                    },
+                    ticks: {
+                        autoSkip: true, // Skip some labels to avoid overlap
+                        maxRotation: 45,
+                        minRotation: 30
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Price (Р)'
+                    },
+                    min: 80, // Min price
+                    max: 200, // Max price (including prediction range)
+                    ticks: {
+                        stepSize: 10
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            const isPrediction = tooltipItem.dataIndex >= 20; // Check if it's a prediction
+                            return isPrediction ? `Predicted Price: ${tooltipItem.raw} Р` : `Price: ${tooltipItem.raw} Р`;
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: [
+                        {
+                            type: 'line',
+                            mode: 'vertical',
+                            scaleID: 'x',
+                            value: 'Dec Week 4', // Add annotation at the end of the real data
+                            borderColor: 'black',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Predicted Data',
+                                enabled: true,
+                                position: 'top'
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

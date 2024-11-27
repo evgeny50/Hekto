@@ -1,0 +1,27 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+    Удалить продукт {{ product.name }}
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Удалить продукт</h1>
+                    <p class="text-center">Вы уверены, что хотите удалить продукт <strong>{{ product.name }}</strong>?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <a href="{% url 'product' product.slug %}" class="btn btn-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
