@@ -1,0 +1,170 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+    Create Product
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Create Product</h1>
+                    <form id="product-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Create Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок с предсказанием и графиком -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h2 id="predicted-price">Predicted price: - </h2>
+                    <img id="price-graph" src="" class="img-fluid" alt="Price Prediction Graph" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let isDataLoaded = false;
+    let propertiesData = null; // Место для хранения данных
+
+    // Функция для отправки запроса и загрузки значений
+    function fetchValues(productName) {
+        const propertyField1 = $('#id_property_key');
+        const propertyField2 = $('#id_property_key_2');
+
+        if (isDataLoaded) return;  // Если данные уже загружены, не отправляем запрос
+
+        // Очистка текущих значений
+        propertyField1.html('<option value="">Загрузка...</option>');
+        propertyField2.html('<option value="">Загрузка...</option>');
+
+        $.ajax({
+            url: "{% url 'property-values' %}",  // Новый URL для обработки на сервере
+            type: "GET",
+            data: { name: productName },  // Отправляем имя продукта на сервер
+            success: function(data) {
+                // Сохраняем полученные данные в переменную
+                propertiesData = data.properties;
+                isDataLoaded = true;  // Устанавливаем флаг, что данные загружены
+
+                // Очищаем и добавляем новые значения в выпадающие списки
+                propertyField1.html('<option value="">Выберите свойство</option>');
+                propertyField2.html('<option value="">Выберите свойство</option>');
+
+                // Заполняем оба поля свойствами
+                propertiesData.forEach(function(property) {
+                    propertyField1.append(new Option(property.name, property.id));
+                    propertyField2.append(new Option(property.name, property.id));
+                });
+            },
+            error: function() {
+                propertyField1.html('<option value="">Ошибка загрузки</option>');
+                propertyField2.html('<option value="">Ошибка загрузки</option>');
+            }
+        });
+    }
+
+    // Обработчик изменения поля name
+    $('#id_name').on('input', function() {
+        const productName = $(this).val();
+        if (productName && !isDataLoaded) {
+            fetchValues(productName); // Отправляем запрос только если еще не загружены данные
+        } else {
+            // Если поле пустое, очищаем свойства
+            $('#id_property_key').html('<option value="">Выберите свойство</option>');
+            $('#id_property_key_2').html('<option value="">Выберите свойство</option>');
+        }
+    });
+
+    // Обработчик изменения выбранного свойства для динамического обновления значений
+    $('#id_property_key').on('change', function() {
+        const selectedPropertyId = $(this).val();
+
+        if (selectedPropertyId) {
+            // Ищем выбранное свойство в загруженных данных
+            const selectedProperty = propertiesData.find(function(property) {
+                return property.id == selectedPropertyId;
+            });
+
+            // Если найдено свойство, обновляем значения для него
+            if (selectedProperty && selectedProperty.values) {
+                const valueField = $('#id_property_value'); // Добавляем поле для значений
+                valueField.html('<option value="">Выберите значение</option>'); // Очищаем
+
+                // Заполняем поле значениями
+                selectedProperty.values.forEach(function(value) {
+                    valueField.append(new Option(value, value));
+                });
+            }
+        }
+    });
+
+    // Обработчик изменений для второго свойства
+    $('#id_property_key_2').on('change', function() {
+        const selectedPropertyId = $(this).val();
+
+        if (selectedPropertyId) {
+            const selectedProperty = propertiesData.find(function(property) {
+                return property.id == selectedPropertyId;
+            });
+
+            if (selectedProperty && selectedProperty.values) {
+                const valueField = $('#id_property_value_2');
+                valueField.html('<option value="">Выберите значение</option>'); // Очищаем
+
+                selectedProperty.values.forEach(function(value) {
+                    valueField.append(new Option(value, value));
+                });
+            }
+        }
+    });
+
+    // Функция для проверки, все ли поля заполнены
+    function areFieldsFilled() {
+        let filled = true;
+        $('#product-form input, #product-form select').each(function() {
+            if ($(this).val() === '') {
+                filled = false;
+            }
+        });
+        return filled;
+    }
+
+    // Автоматическое обновление предсказания при изменении значений формы
+    $('#product-form input, #product-form select').on('input change', function() {
+        if (areFieldsFilled()) {
+            $.ajax({
+                url: "{% url 'predict_price' %}",
+                type: "POST",
+                data: $('#product-form').serialize(),
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                success: function(response) {
+                    $('#predicted-price').text('Predicted price: ' + response.predicted_price);
+                    $('#price-graph').attr('src', 'data:image/png;base64,' + response.graph_url).show();
+                },
+                error: function() {
+                    $('#predicted-price').text('Ошибка при получении предсказания.');
+                    $('#price-graph').hide();
+                }
+            });
+        } else {
+            $('#predicted-price').text('Пожалуйста, заполните все поля.');
+            $('#price-graph').hide();
+        }
+    });
+</script>
+{% endblock %}
